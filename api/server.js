@@ -32,7 +32,7 @@ server.use((req, res, next) => {
       const user = db.users && db.users.find((u) => u.id === id); // match as string
   
       // Check if user exists, admin is true, and binary is 101
-      if (user && admin === "true" && access === "1111") {
+      if (user && admin === "true" && access === "1100001") {
         return res.json({ flag: "Admin NOW HURRAY" });
       } else {
         return res.status(403).json({ error: "Unauthorized" });
