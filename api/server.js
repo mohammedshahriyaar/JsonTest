@@ -25,6 +25,21 @@ server.use(jsonServer.rewriter({
     '/api/*': '/$1',
     '/blog/:resource/:id/show': '/:resource/:id'
 }))
+
+server.use((req, res, next) => {
+    if (req.url.includes("/flag")) {
+      const { admin, binary, id } = req.query;
+      const user = db.users && db.users.find((u) => u.id === id); // match as string
+  
+      // Check if user exists, admin is true, and binary is 101
+      if (user && admin === "true" && binary === "101") {
+        return res.json({ flag: "Admin NOW HURRAY" });
+      } else {
+        return res.status(403).json({ error: "Unauthorized" });
+      }
+    }
+    next();
+  });
 server.use(router)
 server.listen(3000, () => {
     console.log('JSON Server is running')
